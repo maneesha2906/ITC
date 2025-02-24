@@ -1,0 +1,14 @@
+Unit test:-
+-->unit tests are the segments of codes that are written to test other modules and files that we refer to as a unit. 
+-->Unit Testing is a very important part of the software development process that helps us to ensure that the code works properly without any errors.
+-->The primary goal of Python unit testing is checking the validation that each unit of the software performs as designed, according to its specifications.
+--> Each unit test looks at a small part of the code, making sure it works even when things get a little tricky.
+-->So that programmers can find and fix mistakes early on.
+
+Types of Python Testing Frameworks:-
+Python has two main frameworks to make unit testing easier:
+
+-->Unittest
+-->Pytest
+-->Nose or nose2
+-->Doctest

@@ -1,0 +1,84 @@
+Functional Programming in Scala – Basics 🚀
+1️⃣ What is Functional Programming?
+Functional Programming (FP) is a declarative programming paradigm that treats functions as first-class citizens and avoids mutable state.
+
+2️⃣ Key Features of FP in Scala
+✅ Immutable Data – Avoids changing variables.
+✅ Pure Functions – Output depends only on input (no side effects).
+✅ Higher-Order Functions – Functions that take other functions as arguments.
+✅ Function Composition – Combining smaller functions to create complex logic.
+✅ Pattern Matching – A powerful alternative to if-else statements.
+
+3️⃣ Basic Functional Constructs in Scala
+🔹 Immutable Variables (val)
+scala
+Copy
+Edit
+val x = 10  // Immutable
+// x = 20   // ERROR: Cannot reassign a val
+🔹 Pure Functions
+scala
+Copy
+Edit
+def add(a: Int, b: Int): Int = a + b  // No side effects
+println(add(2, 3))  // Output: 5
+🔹 Higher-Order Functions
+scala
+Copy
+Edit
+def operate(x: Int, y: Int, f: (Int, Int) => Int): Int = f(x, y)
+
+val sum = operate(5, 3, _ + _)  // Passing addition function
+val product = operate(5, 3, _ * _)  
+println(sum)      // Output: 8
+println(product)  // Output: 15
+🔹 Anonymous Functions (Lambdas)
+scala
+Copy
+Edit
+val square = (x: Int) => x * x
+println(square(4))  // Output: 16
+🔹 Map, Filter, Reduce
+scala
+Copy
+Edit
+val numbers = List(1, 2, 3, 4, 5)
+
+// Map - Applies a function to each element
+val squares = numbers.map(x => x * x)
+println(squares)  // Output: List(1, 4, 9, 16, 25)
+
+// Filter - Selects elements that satisfy a condition
+val evens = numbers.filter(_ % 2 == 0)
+println(evens)  // Output: List(2, 4)
+
+// Reduce - Aggregates elements
+val sum = numbers.reduce(_ + _)
+println(sum)  // Output: 15
+🔹 Pattern Matching
+scala
+Copy
+Edit
+def checkNumber(n: Int): String = n match {
+  case 0 => "Zero"
+  case 1 => "One"
+  case _ => "Other"
+}
+println(checkNumber(1))  // Output: One
+4️⃣ Benefits of Functional Programming in Scala
+✔ More concise & readable code
+✔ Better modularity & reusability
+✔ Easier to debug (no side effects)
+✔ Supports parallel computing (no shared state)
+
+🎯 Conclusion:
+Scala's functional programming makes code cleaner, safer, and more efficient! 🚀
+
+Let me know if you need examples or explanations! 😊
+
+
+
+
+
+
+

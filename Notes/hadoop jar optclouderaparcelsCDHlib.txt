@@ -1,0 +1,6 @@
+hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-streaming.jar \
+ -files mapper.py,reducer.py \
+ -mapper "/usr/bin/python3 mapper.py" \
+ -reducer "/usr/bin/python3 reducer.py" \
+ -input /tmp/big_datajan2025/ManeeshaBD/file1.txt \
+ -output /tmp/big_datajan2025/ManeeshaBD/out1

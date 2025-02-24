@@ -1,0 +1,1 @@
+sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar wordcount /tmp/big_datajan2025/maneesha/file1.txt /tmp/big_datajan2025/maneesha

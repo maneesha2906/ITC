@@ -1,0 +1,47 @@
+
+CREATE TABLE employees_uk (
+    id INT,
+    name string,
+    age int,
+    emp_id int,
+    salary double,
+    location string
+    
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION '/tmp/big_datajan2025/maneesha/temporary_table/';
+
+
+
+1,manu,26,101,65000,london
+2,jaya,27,102,65430,manchester
+3,dhara,28,103,78543,bristol
+4,saba,29,104,75890,edinburgh
+5,zack,35,105,65323,newcastle
+6,rana,45,106,87654,ireland
+
+
+LOAD DATA INPATH '/tmp/big_datajan2025/maneesha/temporary_table/data.csv' INTO TABLE employees_uk;
+
+hdfs dfs -chown -R hive:hadoop /tmp/big_datajan2025/maneesha/temporary_table/data.csv
+
+
+CREATE TABLE employee_Managed_table_txt (
+    EmployeeID INT,
+    FirstName STRING,
+    LastName STRING,
+    Email STRING,
+    Phone STRING,
+    DateOfJoining STRING,
+    Department STRING,
+    Designation STRING,
+    Salary INT
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION '/tmp/big_datajan2025/saba/Hive/';

@@ -4,3 +4,5 @@ hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-streaming.jar \
  -reducer "/usr/bin/python3 reducer.py" \
  -input /tmp/bigdata_jan2025/maneesha/file1.txt \
  -output /tmp/bigdata_jan2025/maneesha/output 
+
+ //////////////////////////////////////////

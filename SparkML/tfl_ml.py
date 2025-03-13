@@ -17,7 +17,7 @@ df = spark.sql(f"SELECT * FROM {hive_table}")
 
 # Step 3: Check Schema and Data Overview
 df.printSchema()
-df.show(10)
+df.show(5)
 
 # Step 4: Data Preprocessing
 # Assuming 'line_status' is the target column and other relevant features are used for prediction
@@ -52,7 +52,7 @@ accuracy = evaluator.evaluate(predictions)
 print(f"Test Accuracy: {accuracy:.2f}")
 
 # Step 11: Show Sample Predictions
-predictions.select("line_status", "prediction").show(10)
+predictions.select("line_status", "prediction").show(5)
 
 # Stop Spark Session
 spark.stop()

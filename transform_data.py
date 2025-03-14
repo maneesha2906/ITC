@@ -14,7 +14,7 @@ spark = SparkSession.builder.appName("transform_data").enableHiveSupport().getOr
 # ✅ Define Hive Database & Tables
 HIVE_DB = "default"
 SOURCE_TABLE = "tfl_tube_status"
-TARGET_TABLE = "tfl_cleandata"
+TARGET_TABLE = "tfl_tube_cleandata"
 
 logger.info("Loading data from source table: {}.{}".format(HIVE_DB, SOURCE_TABLE))
 

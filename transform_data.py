@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 # ✅ Start Spark Session
-spark = SparkSession.builder.appName("Transform_Life_Data").enableHiveSupport().getOrCreate()
+spark = SparkSession.builder.appName("transform_data").enableHiveSupport().getOrCreate()
 
 # ✅ Define Hive Database & Tables
 HIVE_DB = "default"

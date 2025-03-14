@@ -31,9 +31,9 @@ df = (
 logger.info("Data transformation completed successfully")
 
 # ✅ Write Transformed Data Back to Hive
-df.write.mode("overwrite").saveAsTable(f"{HIVE_DB}.{TARGET_TABLE}")
+df.write.mode("overwrite").saveAsTable("{}.{}".format(HIVE_DB, TARGET_TABLE))
 
-logger.info(f"Transformed data saved to {HIVE_DB}.{TARGET_TABLE}")
+logger.info("Transformed data saved to {}.{}".format(HIVE_DB, TARGET_TABLE))
 
 # ✅ Stop Spark Session
 spark.stop()

@@ -24,8 +24,8 @@ df = spark.sql("SELECT * FROM {}.{}".format(HIVE_DB, SOURCE_TABLE))
 
 # ✅ Clean 'linestatus' Column
 df = (
-    df.withColumn("linestatus", regexp_replace(col("linestatus"), r'\\', ''))  # Remove escape characters
-    .withColumn("linestatus", regexp_replace(col("linestatus"), r'["\[\]]', ''))  # Remove quotes and brackets
+    df.withColumn("linestatus", regexp_replace(col("linestatus")[0], r'\\', ''))  # Remove escape characters
+    .withColumn("linestatus", regexp_replace(col("linestatus")[0], r'["\[\]]', ''))  # Remove quotes and brackets
 )
 
 logger.info("Data transformation completed successfully")

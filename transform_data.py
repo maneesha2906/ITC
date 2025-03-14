@@ -16,10 +16,11 @@ HIVE_DB = "default"
 SOURCE_TABLE = "tfl_tube_status"
 TARGET_TABLE = "tfl_cleandata"
 
-logger.info(f"Loading data from source table: {HIVE_DB}.{SOURCE_TABLE}")
+logger.info("Loading data from source table: {}.{}".format(HIVE_DB, SOURCE_TABLE))
+
 
 # ✅ Load Data from Hive
-df = spark.sql(f"SELECT * FROM {HIVE_DB}.{SOURCE_TABLE}")
+df = spark.sql("SELECT * FROM {}.{}".format(HIVE_DB, SOURCE_TABLE))
 
 # ✅ Clean 'linestatus' Column
 df = (

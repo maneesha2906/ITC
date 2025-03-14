@@ -8,12 +8,12 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 # ✅ Start Spark Session
-spark = SparkSession.builder.appName("Transform_Life_Data").enableHiveSupport().getOrCreate()
+spark = SparkSession.builder.appName("transform_data").enableHiveSupport().getOrCreate()
 
 # ✅ Define Hive Database & Tables
 HIVE_DB = "default"
 SOURCE_TABLE = "tfl_tube_status"
-TARGET_TABLE = "TFL_Tube_Result"
+TARGET_TABLE = "tfl_tube_cleandata"
 
 # ✅ Log the start of the process
 logger.info("Loading data from source table: %s.%s", HIVE_DB, SOURCE_TABLE)

@@ -2,7 +2,7 @@
 
 import logging
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, regexp_replace
+from pyspark.sql.functions import col, regexp_replace, concat_ws
 
 # ✅ Initialize Logger
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -24,8 +24,8 @@ df = spark.sql("SELECT * FROM {}.{}".format(HIVE_DB, SOURCE_TABLE))
 
 # ✅ Clean 'linestatus' Column
 df = (
-    df.withColumn("linestatus", regexp_replace(col("linestatus")[0], r'\\', ''))  # Remove escape characters
-    .withColumn("linestatus", regexp_replace(col("linestatus")[0], r'["\[\]]', ''))  # Remove quotes and brackets
+    df.withColumn("linestatus", regexp_replace(concat_ws(col("linestatus"), r'\\', '')))  # Remove escape characters
+    .withColumn("linestatus", regexp_replace(concat_ws(col("linestatus"), r'["\[\]]', '')))  # Remove quotes and brackets
 )
 
 logger.info("Data transformation completed successfully")

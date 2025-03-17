@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        SCRIPT_PATH = "unitest.py"
+        SCRIPT_PATH = "fetchApiTfl_test.py"
     }
     stages {
         stage('unit test for fetch api tfl') {

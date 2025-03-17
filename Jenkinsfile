@@ -1,10 +1,10 @@
 pipeline {
     agent any
     environment {
-        SCRIPT_PATH = "fetch_tfl_data.py"
+        SCRIPT_PATH = "unitest.py"
     }
     stages {
-        stage('Fetch & Store Data in HDFS') {
+        stage('unit test for fetch api tfl') {
             steps {
                 script {
                     sh "python3 ${SCRIPT_PATH}"

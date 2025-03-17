@@ -12,7 +12,4 @@ pipeline {
             }
         }
     }
-    triggers {
-        cron('H/30 * * * *')  // Runs every 30 minutes
-    }
 }

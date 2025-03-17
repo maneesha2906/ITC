@@ -17,7 +17,7 @@ df = spark.sql(f"SELECT * FROM {hive_table}")
 
 # Step 3: Check Schema and Data Overview
 df.printSchema()
-df.show(5)
+df.show(6)
 
 # Step 4: Data Preprocessing
 # Assuming 'line_status' is the target column and other relevant features are used for prediction

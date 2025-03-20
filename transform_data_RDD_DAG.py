@@ -46,7 +46,19 @@ logger.info("Number of partitions after repartitioning: %d", df.rdd.getNumPartit
 
 # ✅ Display the contents of each partition
 partitions_data = df.rdd.glom().collect()
-logger.info("Data in each partition:")
+logger.info("Data in each partition after repartitioning:")
+for i, partition in enumerate(partitions_data):
+    logger.info("Partition %d: %d rows", i, len(partition))
+
+# ✅ coalesce DataFrame (e.g., 4 partitions)
+df = df.coalesce(4) # coalesce into 4 partitions for better performance during write
+
+# ✅ Display the number of coalesce
+logger.info("Number of coalesce after repartitioning: %d", df.rdd.getNumPartitions())
+
+# ✅ Display the contents of each partition
+partitions_data = df.rdd.glom().collect()
+logger.info("Data in each partition after coalesce:")
 for i, partition in enumerate(partitions_data):
     logger.info("Partition %d: %d rows", i, len(partition))
 

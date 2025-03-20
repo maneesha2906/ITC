@@ -1,0 +1,21 @@
+docker run -it ubuntu /bin/bash
+
+go into docker file first 
+ cd python
+
+docker build -t dockerpython . #imagenameyou want to create
+
+docker image ls
+
+docker ps -a #check the containers
+
+docker run dockerpython #run the data into container
+
+docker stop
+
+
+docker rm <container_id> #to remove 
+
+docker rmi <image_id>
+
+git clone https://github.com/uttamraj9/DockerTutorial.git

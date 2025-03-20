@@ -1,0 +1,100 @@
+Spark ML (Machine Learning in Apache Spark)
+Apache Spark ML is a scalable machine learning library built on top of Spark, designed for distributed computing. It provides MLlib (RDD-based) and ML (DataFrame-based API) for training models on large-scale data.
+
+1. Key Features of Spark ML
+✅ Scalability: Works with large datasets using distributed processing.
+✅ Pipeline API: Simplifies ML workflows using transformers and estimators.
+✅ Integration: Works with Spark SQL, DataFrames, and MLlib.
+✅ Support for Various Algorithms: Includes classification, regression, clustering, recommendation, and more.
+
+2. Spark ML Workflow
+The typical Spark ML workflow consists of:
+
+Load Data (from CSV, Parquet, or a database)
+Preprocess Data (handle missing values, feature scaling, categorical encoding)
+Build ML Pipelines (using Pipeline, Estimator, and Transformer)
+Train a Model
+Evaluate the Model
+Make Predictions
+Save & Load Models for later use
+3. Example: Spark ML Pipeline for Classification
+Let's train a Logistic Regression model using Spark ML.
+
+Step 1: Import Dependencies
+python
+Copy
+Edit
+from pyspark.sql import SparkSession
+from pyspark.ml.feature import VectorAssembler
+from pyspark.ml.classification import LogisticRegression
+from pyspark.ml import Pipeline
+Step 2: Initialize Spark Session
+python
+Copy
+Edit
+spark = SparkSession.builder.appName("SparkML Example").getOrCreate()
+Step 3: Load Data
+python
+Copy
+Edit
+data = spark.read.csv("data.csv", header=True, inferSchema=True)
+data.show(5)
+Step 4: Feature Engineering
+Convert input features into a feature vector:
+
+python
+Copy
+Edit
+feature_columns = ["feature1", "feature2", "feature3"]
+assembler = VectorAssembler(inputCols=feature_columns, outputCol="features")
+Step 5: Define Model
+python
+Copy
+Edit
+lr = LogisticRegression(featuresCol="features", labelCol="label")
+Step 6: Create a Pipeline
+python
+Copy
+Edit
+pipeline = Pipeline(stages=[assembler, lr])
+Step 7: Train the Model
+python
+Copy
+Edit
+train_data, test_data = data.randomSplit([0.8, 0.2], seed=42)
+model = pipeline.fit(train_data)
+Step 8: Make Predictions
+python
+Copy
+Edit
+predictions = model.transform(test_data)
+predictions.select("features", "label", "prediction").show(5)
+Step 9: Model Evaluation
+python
+Copy
+Edit
+from pyspark.ml.evaluation import BinaryClassificationEvaluator
+evaluator = BinaryClassificationEvaluator(labelCol="label")
+accuracy = evaluator.evaluate(predictions)
+print(f"Model Accuracy: {accuracy}")
+Step 10: Save & Load Model
+Save:
+
+python
+Copy
+Edit
+model.save("logistic_regression_model")
+Load:
+
+python
+Copy
+Edit
+from pyspark.ml.classification import LogisticRegressionModel
+loaded_model = LogisticRegressionModel.load("logistic_regression_model")
+4. Other ML Algorithms in Spark ML
+📌 Classification: LogisticRegression, RandomForestClassifier, DecisionTreeClassifier
+📌 Regression: LinearRegression, DecisionTreeRegressor, GBTRegressor
+📌 Clustering: KMeans, BisectingKMeans, GaussianMixture
+📌 Recommendation: ALS (Collaborative Filtering)
+📌 Dimensionality Reduction: PCA, SVD
+

@@ -1,0 +1,258 @@
+Employee Data:
+EmployeeID,Name,Department,Salary,JoinDate
+1,John,IT,80000,2020-01-15
+2,Jane,HR,70000,2018-07-01
+3,Tom,Finance,90000,2019-03-12
+4,Anna,IT,95000,2021-05-20
+5,Mark,HR,72000,2017-11-30
+6,Lisa,Finance,88000,2020-11-01
+
+
+Product Sales Data:
+ProductID,ProductName,Category,Price,QuantitySold,SaleDate
+101,Laptop,Electronics,1200,50,2021-05-01
+102,Shirt,Apparel,30,100,2021-05-03
+103,Phone,Electronics,800,75,2021-05-02
+104,Jeans,Apparel,50,40,2021-05-05
+105,Headphones,Electronics,200,150,2021-05-01
+106,Watch,Accessories,150,60,2021-05-04
+
+
+Customer Data:
+CustomerID,Name,Location,Age,Gender,PurchaseAmount
+1,John Doe,London,30,Male,250
+2,Jane Smith,Berlin,25,Female,300
+3,Tom Brown,New York,35,Male,150
+4,Lisa White,London,28,Female,450
+5,Mark Green,Berlin,40,Male,200
+6,Anna Black,New York,22,Female,500
+
+Order Data:
+OrderID,CustomerID,ProductID,Quantity,Price,OrderDate
+201,1,101,2,1200,2021-05-10
+202,2,103,1,800,2021-05-11
+203,3,102,5,30,2021-05-12
+204,4,104,3,50,2021-05-10
+205,5,105,4,200,2021-05-13
+206,6,106,2,150,2021-05-14
+
+Employee Attendance Data:
+EmployeeID,Date,Status
+1,2021-05-01,Present
+2,2021-05-01,Absent
+3,2021-05-01,Present
+4,2021-05-01,Present
+5,2021-05-01,Absent
+1,2021-05-02,Present
+2,2021-05-02,Present
+3,2021-05-02,Present
+4,2021-05-02,Absent
+5,2021-05-02,Present
+
+Transformations:
+filter()
+select()
+withColumn()
+drop()
+distinct()
+groupBy()
+agg()
+join()
+union()
+sort()
+orderBy()
+limit()
+cast()
+fillna()
+dropna()
+replace()
+alias()
+explode()
+dropDuplicates()
+add_columns()
+Actions:
+show()
+collect()
+count()
+first()
+take()
+foreach()
+reduce()
+foreachPartition()
+isEmpty()
+write()
+head()
+approxQuantile()
+describe()
+isNull()
+
+
+Transformations:
+filter()
+
+Description: Filters rows based on a condition.
+Pseudo Code:
+filtered_data = data.filter(condition)
+select()
+
+Description: Select specific columns from a DataFrame.
+Pseudo Code:
+selected_data = data.select(columns_list)
+withColumn()
+
+Description: Adds a new column or updates an existing column.
+Pseudo Code:
+new_data = data.withColumn("new_column", expression)
+drop()
+
+Description: Drops a specified column(s) from the DataFrame.
+Pseudo Code:
+dropped_data = data.drop(column_name)
+distinct()
+
+Description: Removes duplicate rows.
+Pseudo Code:
+distinct_data = data.distinct()
+groupBy()
+
+Description: Groups data based on one or more columns.
+Pseudo Code:
+grouped_data = data.groupBy(column_name)
+agg()
+
+Description: Performs aggregation (like sum, avg) on grouped data.
+Pseudo Code:
+aggregated_data = grouped_data.agg(agg_functions)
+join()
+
+Description: Joins two DataFrames on a common column.
+Pseudo Code:
+joined_data = data1.join(data2, "common_column", "join_type")
+union()
+
+Description: Combines two DataFrames with the same schema.
+Pseudo Code:
+union_data = data1.union(data2)
+sort() / orderBy()
+
+Description: Sorts the data based on one or more columns.
+Pseudo Code:
+sorted_data = data.sort(column_name)
+or
+sorted_data = data.orderBy(column_name)
+limit()
+
+Description: Limits the number of rows returned.
+Pseudo Code:
+limited_data = data.limit(n)
+cast()
+
+Description: Changes the data type of a column.
+Pseudo Code:
+casted_data = data.withColumn("column_name", data["column_name"].cast(new_type))
+fillna()
+
+Description: Fills missing (null) values with a specified value.
+Pseudo Code:
+filled_data = data.fillna(value)
+dropna()
+
+Description: Drops rows with null values.
+Pseudo Code:
+clean_data = data.dropna()
+replace()
+
+Description: Replaces specified values with another value.
+Pseudo Code:
+replaced_data = data.replace("old_value", "new_value")
+alias()
+
+Description: Creates an alias for a column.
+Pseudo Code:
+alias_data = data.withColumnRenamed("old_name", "new_name")
+explode()
+
+Description: Converts an array column into multiple rows.
+Pseudo Code:
+exploded_data = data.select(explode(column_name))
+dropDuplicates()
+
+Description: Drops duplicate rows based on one or more columns.
+Pseudo Code:
+unique_data = data.dropDuplicates()
+add_columns()
+
+Description: Adds multiple new columns to the DataFrame.
+Pseudo Code:
+new_data = data.withColumn("new_col1", expression1).withColumn("new_col2", expression2)
+Actions:
+show()
+
+Description: Displays the first few rows of a DataFrame.
+Pseudo Code:
+data.show()
+collect()
+
+Description: Retrieves all rows of the DataFrame as a list.
+Pseudo Code:
+data_list = data.collect()
+count()
+
+Description: Returns the number of rows in the DataFrame.
+Pseudo Code:
+row_count = data.count()
+first()
+
+Description: Returns the first row of the DataFrame.
+Pseudo Code:
+first_row = data.first()
+take()
+
+Description: Returns the first N rows of the DataFrame.
+Pseudo Code:
+first_n_rows = data.take(n)
+foreach()
+
+Description: Applies a function to each row in the DataFrame.
+Pseudo Code:
+data.foreach(function)
+reduce()
+
+Description: Reduces the DataFrame to a single value by applying a function.
+Pseudo Code:
+reduced_value = data.rdd.reduce(function)
+foreachPartition()
+
+Description: Applies a function to each partition of the DataFrame.
+Pseudo Code:
+data.foreachPartition(function)
+isEmpty()
+
+Description: Checks if the DataFrame is empty.
+Pseudo Code:
+is_empty = data.isEmpty()
+write()
+
+Description: Writes the DataFrame to an external storage like a file or database.
+Pseudo Code:
+data.write.format("csv").save("output_path")
+head()
+
+Description: Returns the first row of the DataFrame (similar to first()).
+Pseudo Code:
+first_row = data.head()
+approxQuantile()
+
+Description: Calculates approximate quantiles of a column.
+Pseudo Code:
+quantiles = data.approxQuantile("column_name", probabilities, relative_error)
+describe()
+
+Description: Generates summary statistics (count, mean, stddev, min, max).
+Pseudo Code:
+summary_stats = data.describe()
+isNull()
+
+Description: Checks if a column contains null values.
+Pseudo Code:
+null_check = data.filter(data.column_name.isNull())

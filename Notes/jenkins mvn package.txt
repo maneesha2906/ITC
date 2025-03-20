@@ -1,0 +1,4 @@
+mvn package
+spark-submit --master local[*] --jars /var/lib/jenkins/workspace/jars/postgresql-42.7.5.jar --class spark.initload_tfl1 /var/lib/jenkins/workspace/Scala_InitLoad1/target/TFL_Underground-1.0-SNAPSHOT.jar
+
+

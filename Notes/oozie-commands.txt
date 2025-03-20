@@ -1,0 +1,15 @@
+sqoop import --connect jdbc:postgresql://18.132.73.146:5432/testdb --username consultants --password WelcomeItc@2022 --table mag_file --m 1 --target-dir /tmp/big_datajan2025/maneesha/scoop_mag_file/oozie
+
+
+CREATE EXTERNAL TABLE maneesha.oozie_file (
+    id int,
+name string, 
+age int,
+salary double,
+location string
+)
+ROW FORMAT DELIMITEDsc
+FIELDS TERMINATED BY ','  
+LINES TERMINATED BY '\n'  
+STORED AS TEXTFILE
+LOCATION '/tmp/big_datajan2025/maneesha/scoop_mag_file/oozie;

@@ -1,0 +1,3 @@
+sudo -u hdfs hdfs dfs -chown jenkins:hive /warehouse/tablespace/external/hive/TFL_Underground_Result
+
+sudo -u hdfs hdfs dfs -chmod -R 755 /warehouse/tablespace/external/hive/bigdata_sabaitc.db/tflpyspark

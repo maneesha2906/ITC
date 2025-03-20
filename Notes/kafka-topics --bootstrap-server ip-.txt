@@ -1,0 +1,13 @@
+kafka-topics --bootstrap-server ip-172-31-8-235.eu-west-2.compute.internal:9092,ip-172-31-14-3.eu-west-2.compute.internal:9092 --describe
+ 
+kafka-topics --bootstrap-server ip-172-31-8-235.eu-west-2.compute.internal:9092,ip-172-31-14-3.eu-west-2.compute.internal:9092  --create --topic maneesha 
+kafka-topics --bootstrap-server ip-172-31-8-235.eu-west-2.compute.internal:9092,ip-172-31-14-3.eu-west-2.compute.internal:9092 --describe --topic maneesha
+
+
+
+kafka-console-producer --broker-list ip-172-31-8-235.eu-west-2.compute.internal:9092,ip-172-31-14-3.eu-west-2.compute.internal:9092 --topic maneesha
+
+
+kafka-console-consumer --bootstrap-server ip-172-31-8-235.eu-west-2.compute.internal:9092,ip-172-31-14-3.eu-west-2.compute.internal:9092  --topic maneesha --from-beginning --partition 0
+
+anything u want to test u can use curl command or postman

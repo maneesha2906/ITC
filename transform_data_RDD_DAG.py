@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 import logging
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, regexp_replace, to_timestamp, date_format
-import time
 
 # ✅ Initialize Logger
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -14,7 +12,7 @@ spark = SparkSession.builder.appName("transform_data").enableHiveSupport().getOr
 # ✅ Define Hive Database & Tables
 HIVE_DB = "default"
 SOURCE_TABLE = "tfl_tube_status"
-TARGET_TABLE = "tfl_tube_cleandata_manu"
+TARGET_TABLE = "tfl_tube_cleandata"
 
 # ✅ Log the start of the process
 logger.info("Loading data from source table: %s.%s", HIVE_DB, SOURCE_TABLE)
@@ -35,6 +33,18 @@ df = df.withColumn("timedetails", date_format(col("timedetails"), "dd/MM/yyyy HH
 # ✅ Remove NULL values in 'timedetails'
 df = df.filter(col("timedetails").isNotNull())
 
+# ✅ Repartition DataFrame (e.g., 10 partitions)
+df = df.repartition(10)  # Repartition into 10 partitions for better performance during write
+
+# ✅ Display the number of partitions
+logger.info("Number of partitions after repartitioning: %d", df.rdd.getNumPartitions())
+
+# ✅ Display the contents of each partition
+partitions_data = df.rdd.glom().collect()
+logger.info("Data in each partition:")
+for i, partition in enumerate(partitions_data):
+    logger.info("Partition %d: %d rows", i, len(partition))
+
 # ✅ Log Data Processing Completion
 logger.info("Data transformation completed successfully")
 
@@ -42,10 +52,6 @@ logger.info("Data transformation completed successfully")
 df.write.mode("overwrite").saveAsTable("{}.{}".format(HIVE_DB, TARGET_TABLE))
 
 logger.info("Transformed data saved to %s.%s", HIVE_DB, TARGET_TABLE)
-
-# ✅ Wait Time for Spark UI Analysis
-logger.info("Waiting for 30 seconds to analyze Spark UI...")
-time.sleep(30)  # Wait for 30 seconds
 
 # ✅ Stop Spark Session
 spark.stop()

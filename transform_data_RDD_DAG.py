@@ -28,6 +28,7 @@ df1 = spark.range(1000000)  # Creating a DataFrame
 df1.cache()  # Caching in memory
 
 df1.count()  # First action → Triggers cache
+logger.info("Show cached data")
 df1.show() 
 
 # ✅ Clean 'linestatus' Column

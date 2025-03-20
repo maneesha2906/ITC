@@ -21,6 +21,15 @@ logger.info("Loading data from source table: %s.%s", HIVE_DB, SOURCE_TABLE)
 # ✅ Load Data from Hive
 df = spark.sql("SELECT * FROM {}.{}".format(HIVE_DB, SOURCE_TABLE))
 
+# ✅ Persist the cleaned DataFrame in memory
+df = df.persist()  # You can also use df.persist(StorageLevel.MEMORY_AND_DISK) if memory is limited
+
+df1 = spark.range(1000000)  # Creating a DataFrame
+df1.cache()  # Caching in memory
+
+df1.count()  # First action → Triggers cache
+df1.show() 
+
 # ✅ Clean 'linestatus' Column
 df = df.withColumn("linestatus", col("linestatus").getItem(0))  # Extract first element from array
 df = df.withColumn("linestatus", regexp_replace(col("linestatus"), r'[\[\]\"]', ''))  # Remove brackets & quotes
@@ -69,6 +78,10 @@ logger.info("Data transformation completed successfully")
 df.write.mode("overwrite").saveAsTable("{}.{}".format(HIVE_DB, TARGET_TABLE))
 
 logger.info("Transformed data saved to %s.%s", HIVE_DB, TARGET_TABLE)
+
+# ✅ Unpersist DataFrame to free memory
+df.unpersist()
+logger.info("Persisted DataFrame unpersisted to free memory.")
 
 # ✅ Stop Spark Session
 spark.stop()

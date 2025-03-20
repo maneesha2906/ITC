@@ -1,10 +1,7 @@
 from pyspark.sql import SparkSession
 
 # Step 1: Create a SparkSession (Entry Point)
-spark = SparkSession.builder \
-    .appName("PySpark UI Architecture Example") \
-    .master("local[*]") \
-    .getOrCreate()
+spark = SparkSession.builder.appName("pysparkdemo").enableHiveSupport().getOrCreate()
 
 # Step 2: Create an RDD and perform some transformations
 data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]

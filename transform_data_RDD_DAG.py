@@ -34,6 +34,10 @@ df = df.withColumn("timedetails", date_format(col("timedetails"), "dd/MM/yyyy HH
 # ✅ Remove NULL values in 'timedetails'
 df = df.filter(col("timedetails").isNotNull())
 
+# ✅ Check the number of partitions
+num_partitions = df.rdd.getNumPartitions()
+logger.info("Number of partitions in the DataFrame before the repartition: %d", num_partitions)
+
 # ✅ Repartition DataFrame (e.g., 10 partitions)
 df = df.repartition(10)  # Repartition into 10 partitions for better performance during write
 

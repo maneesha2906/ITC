@@ -1,0 +1,177 @@
+End-to-End Predictive Analysis for TfL Underground API using SparkML, Docker, Kubernetes, and Jenkins
+This solution follows the architecture in your whiteboard diagram:
+
+Batch Processing Done Until Hive ✅
+SparkML for Model Training & Testing ✅
+Dockerizing the ML Model ✅
+Deploying with Kubernetes ✅
+Setting Up CI/CD with Jenkins ✅
+1. Spark ML Code (Train & Test in Scala for TfL Underground Prediction)
+This script:
+
+Reads processed TfL Underground data from Hive.
+Prepares the dataset for machine learning.
+Trains a Random Forest Regression model.
+Saves the model to HDFS for deployment.
+Scala SparkML Code for Predictive Analysis
+scala
+Copy
+Edit
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.ml.feature.{VectorAssembler, StringIndexer}
+import org.apache.spark.ml.regression.RandomForestRegressor
+import org.apache.spark.ml.evaluation.RegressionEvaluator
+import org.apache.spark.ml.Pipeline
+
+object TFLUndergroundPredictor {
+  def main(args: Array[String]): Unit = {
+    val spark = SparkSession.builder
+      .appName("TfL Underground Predictive Analysis")
+      .enableHiveSupport()
+      .getOrCreate()
+
+    // Load preprocessed TfL data from Hive
+    val data = spark.sql("SELECT * FROM tfl_underground_data")
+
+    // Feature Engineering
+    val assembler = new VectorAssembler()
+      .setInputCols(Array("time_of_day", "station_id", "day_of_week", "passenger_count"))
+      .setOutputCol("features")
+
+    // Train-Test Split
+    val Array(trainingData, testData) = data.randomSplit(Array(0.8, 0.2))
+
+    // Train ML Model
+    val rf = new RandomForestRegressor()
+      .setLabelCol("delay_time")  // Predicting delays
+      .setFeaturesCol("features")
+
+    // Create a pipeline
+    val pipeline = new Pipeline().setStages(Array(assembler, rf))
+    val model = pipeline.fit(trainingData)
+
+    // Save model to HDFS for deployment
+    model.write.overwrite().save("hdfs://namenode:9000/models/tfl_underground_rf_model")
+
+    // Evaluate Model
+    val predictions = model.transform(testData)
+    val evaluator = new RegressionEvaluator()
+      .setLabelCol("delay_time")
+      .setPredictionCol("prediction")
+      .setMetricName("rmse")
+
+    val rmse = evaluator.evaluate(predictions)
+    println(s"Root Mean Squared Error (RMSE): $rmse")
+
+    spark.stop()
+  }
+}
+📌 Note: The label column (delay_time) represents the delay in minutes, which our ML model predicts.
+
+2. Dockerizing Spark ML Model
+Now, we package the Scala Spark ML model inside a Docker container.
+
+Dockerfile
+dockerfile
+Copy
+Edit
+FROM openjdk:11
+RUN mkdir /app
+COPY target/tfl-underground-predictor.jar /app/tfl-underground-predictor.jar
+WORKDIR /app
+CMD ["java", "-jar", "tfl-underground-predictor.jar"]
+Build & Run the Docker Container
+sh
+Copy
+Edit
+docker build -t tfl-underground-predictor .
+docker run -d --name tfl_ml_model tfl-underground-predictor
+3. Kubernetes Deployment for the ML Model
+Now, we deploy our model on Kubernetes.
+
+Deployment YAML File (tfl-ml-deployment.yaml)
+yaml
+Copy
+Edit
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tfl-ml-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tfl-ml
+  template:
+    metadata:
+      labels:
+        app: tfl-ml
+    spec:
+      containers:
+      - name: tfl-ml
+        image: tfl-underground-predictor
+        ports:
+        - containerPort: 8080
+Deploy on Kubernetes
+sh
+Copy
+Edit
+kubectl apply -f tfl-ml-deployment.yaml
+kubectl get pods
+📌 Note: Ensure your Kubernetes cluster is running before deploying.
+
+4. Jenkins CI/CD Pipeline
+Now, we automate the CI/CD pipeline using Jenkins.
+
+Jenkinsfile for CI/CD
+groovy
+Copy
+Edit
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t tfl-underground-predictor .'
+            }
+        }
+        stage('Push to Docker Hub') {
+            steps {
+                withDockerRegistry([credentialsId: 'dockerhub-credentials', url: '']) {
+                    sh 'docker tag tfl-underground-predictor username/tfl-underground-predictor'
+                    sh 'docker push username/tfl-underground-predictor'
+                }
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh 'kubectl apply -f tfl-ml-deployment.yaml'
+            }
+        }
+    }
+}
+Jenkins Pipeline Setup
+Install Jenkins, Maven, Docker, and Kubernetes CLI.
+Configure Docker Hub credentials in Jenkins.
+Run the Jenkins pipeline via Jenkins UI.
+5. Final Steps
+✅ Batch Processing Completed Until Hive
+✅ ML Model Training & Testing with SparkML
+✅ Dockerization for Deployment
+✅ Kubernetes Deployment for Scaling
+✅ Jenkins CI/CD Pipeline for Automation
+
+Would you like to integrate Grafana for monitoring or an API to expose predictions? 🚀
+
+
+
+
+
+
+
+

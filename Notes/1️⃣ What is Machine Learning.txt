@@ -1,0 +1,271 @@
+1️⃣ What is Machine Learning?
+Machine Learning (ML) is a subset of Artificial Intelligence (AI) that enables computers to learn from data and make predictions or decisions without being explicitly programmed. It consists of:
+
+Supervised Learning (e.g., classification, regression)
+Unsupervised Learning (e.g., clustering, anomaly detection)
+Reinforcement Learning (e.g., game playing, robotics)
+Example: Predicting TfL Underground train delays based on past data.
+
+2️⃣ What is SparkML?
+SparkML (Apache Spark MLlib) is a powerful distributed Machine Learning library built on top of Apache Spark. It allows ML models to be trained at scale across large datasets.
+
+🔥 Why SparkML?
+✅ Scalability: Works on large datasets across distributed nodes.
+✅ Speed: Uses in-memory computation for fast processing.
+✅ Ease of Use: Provides pre-built ML algorithms & pipelines.
+✅ Integration: Works with HDFS, Hive, Kafka, HBase, and other big data tools.
+
+3️⃣ SparkML Architecture
+SparkML follows a Pipeline-based architecture:
+
+🚀 SparkML Pipeline Architecture
+🔹 1. Data Ingestion – Read data from HDFS, Hive, Kafka, or other sources.
+🔹 2. Feature Engineering – Convert raw data into meaningful features using VectorAssembler, StringIndexer, OneHotEncoder, etc.
+🔹 3. Train-Test Split – Split data into Training (80%) & Testing (20%).
+🔹 4. Model Training – Train ML models like Random Forest, Decision Trees, Logistic Regression.
+🔹 5. Model Evaluation – Check performance using RMSE, Accuracy, Precision, etc.
+🔹 6. Model Deployment – Save the trained model in HDFS, Hive, or cloud storage for later use.
+
+
+Image Credit: Apache Spark Documentation
+
+4️⃣ Why Use SparkML?
+🔹 Big Data Handling: Can process terabytes or petabytes of data.
+🔹 Distributed Computing: Runs across multiple machines for efficiency.
+🔹 Built-in ML Algorithms: Supports Regression, Classification, Clustering, Recommendation, NLP, and more.
+🔹 Pipeline Optimization: Simplifies the ML workflow.
+🔹 Scalability: Works in Hadoop, Kubernetes, and cloud environments (AWS, GCP, Azure).
+
+5️⃣ How to Use SparkML?
+Step-by-Step Usage of SparkML (Example - TfL Underground Delay Prediction)
+✅ 1. Import Required Libraries
+scala
+Copy
+Edit
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.ml.feature.{VectorAssembler, StringIndexer}
+import org.apache.spark.ml.regression.RandomForestRegressor
+import org.apache.spark.ml.evaluation.RegressionEvaluator
+import org.apache.spark.ml.Pipeline
+✅ 2. Initialize Spark Session
+scala
+Copy
+Edit
+val spark = SparkSession.builder
+  .appName("TfL Underground Predictive Analysis")
+  .enableHiveSupport()
+  .getOrCreate()
+✅ 3. Load Data from Hive
+scala
+Copy
+Edit
+val data = spark.sql("SELECT * FROM tfl_underground_data")
+✅ 4. Feature Engineering
+scala
+Copy
+Edit
+val assembler = new VectorAssembler()
+  .setInputCols(Array("time_of_day", "station_id", "day_of_week", "passenger_count"))
+  .setOutputCol("features")
+/ This combines multiple columns into a single feature vector.
+✅ 5. Train-Test Split
+scala
+Copy
+Edit
+val Array(trainingData, testData) = data.randomSplit(Array(0.8, 0.2))
+/This randomly splits the dataset into 80% training and 20% testing data.
+✅ 6. Train Machine Learning Model
+scala
+Copy
+Edit
+val rf = new RandomForestRegressor()
+  .setLabelCol("delay_time")  // Predicting delays o/p
+  .setFeaturesCol("features")
+/This trains a Random Forest model to predict train delays.
+✅ 7. Build ML Pipeline
+scala
+Copy
+Edit
+val pipeline = new Pipeline().setStages(Array(assembler, rf))
+val model = pipeline.fit(trainingData)
+✅ 8. Evaluate Model
+scala
+Copy
+Edit
+val predictions = model.transform(testData)
+val evaluator = new RegressionEvaluator()
+  .setLabelCol("delay_time")
+  .setPredictionCol("prediction")
+  .setMetricName("rmse")
+
+val rmse = evaluator.evaluate(predictions)
+println(s"Root Mean Squared Error (RMSE): $rmse")
+/This evaluates the model’s performance using RMSE.
+✅ 9. Store Predictions in Hive
+scala
+Copy
+Edit
+predictions.select("station_id", "time_of_day", "day_of_week", "passenger_count", "delay_time", "prediction")
+  .write.mode("overwrite")
+  .saveAsTable("tfl_underground_predictions")
+
+println("Predictions successfully stored in Hive!")
+.
+✅ 10. Save Model to HDFS for Deployment
+scala
+Copy
+Edit
+model.write.overwrite().save("hdfs://namenode:9000/models/tfl_underground_rf_model")
+// This saves the trained model in HDFS for later use
+6️⃣ Where is SparkML Used?
+📌 Fraud Detection – Identify fraudulent transactions in banking.
+📌 Recommendation Systems – Powering Netflix, Amazon, and YouTube recommendations.
+📌 Healthcare Predictions – Detect diseases based on medical history.
+📌 Predictive Maintenance – Used in manufacturing and IoT analytics.
+📌 Customer Churn Analysis – Retain customers based on past behavior.
+
+7️⃣ Summary
+🔹 Machine Learning helps systems learn from data to make predictions.
+🔹 SparkML is a distributed ML library for handling big data efficiently.
+🔹 Pipeline-based architecture simplifies model building.
+🔹 Used in finance, healthcare, e-commerce, and more!
+
+🚀 Summary
+Step	                   Purpose
+Feature Engineering	   Prepares raw data for ML (cleaning, encoding, transformation).
+Train-Test Split	   Divides data to prevent overfitting (80% train, 20% test).
+Model Training	           Teaches ML model to recognize patterns in data.
+Model Evaluation	   Tests model accuracy using metrics like RMSE, R².
+Model Deployment	   Makes the model available for real-world use.
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+1️⃣ Feature Engineering
+What is it?
+Feature engineering is the process of transforming raw data into meaningful features that improve the performance of machine learning models.
+
+Why is it important?
+✅ Converts raw data into a format that ML models understand.
+✅ Improves prediction accuracy.
+✅ Reduces computational complexity.
+
+How it’s done?
+🔹 Handling Missing Values – Fill or remove missing data.
+🔹 Encoding Categorical Variables – Convert text data into numerical values (e.g., StringIndexer).
+🔹 Scaling & Normalization – Standardizing numerical values to a common scale.
+🔹 Feature Selection – Selecting the most important features.
+🔹 Feature Transformation – Creating new features based on existing data.
+
+Example in SparkML
+scala
+Copy
+Edit
+import org.apache.spark.ml.feature.VectorAssembler
+
+val assembler = new VectorAssembler()
+  .setInputCols(Array("time_of_day", "station_id", "day_of_week", "passenger_count"))
+  .setOutputCol("features")
+👉 This combines multiple columns into a single feature vector.
+
+2️⃣ Train-Test Split
+What is it?
+This step divides the dataset into training data (used to train the model) and testing data (used to evaluate the model).
+
+Why is it important?
+✅ Prevents overfitting by ensuring the model generalizes well.
+✅ Helps measure model accuracy before deployment.
+
+How it’s done?
+Most common split: 80% training, 20% testing
+
+Example in SparkML
+scala
+Copy
+Edit
+val Array(trainingData, testData) = data.randomSplit(Array(0.8, 0.2))
+👉 This randomly splits the dataset into 80% training and 20% testing data.
+
+3️⃣ Model Training
+What is it?
+Training is the process where the ML model learns patterns from the training dataset.
+
+Why is it important?
+✅ Helps the model recognize relationships between input (features) and output (target).
+✅ The better the training, the better the predictions.
+
+How it’s done?
+Different ML algorithms are used, such as Random Forest, Decision Trees, Gradient Boosting, Neural Networks, etc.
+
+Example in SparkML
+scala
+Copy
+Edit
+import org.apache.spark.ml.regression.RandomForestRegressor
+
+val rf = new RandomForestRegressor()
+  .setLabelCol("delay_time")  // Target column
+  .setFeaturesCol("features")
+👉 This trains a Random Forest model to predict train delays.
+
+4️⃣ Model Evaluation
+What is it?
+Model evaluation tests how well the trained model performs on unseen data (test set).
+
+Why is it important?
+✅ Ensures the model is accurate and reliable.
+✅ Helps compare different ML models.
+
+How it’s done?
+Common evaluation metrics:
+🔹 RMSE (Root Mean Squared Error) – Measures how far predictions are from actual values.
+🔹 MAE (Mean Absolute Error) – Measures the average absolute error.
+🔹 R² (R-squared Score) – Indicates how well the model explains variance in data.
+
+Example in SparkML
+scala
+Copy
+Edit
+import org.apache.spark.ml.evaluation.RegressionEvaluator
+
+val evaluator = new RegressionEvaluator()
+  .setLabelCol("delay_time")
+  .setPredictionCol("prediction")
+  .setMetricName("rmse")
+
+val rmse = evaluator.evaluate(predictions)
+println(s"Root Mean Squared Error (RMSE): $rmse")
+👉 This evaluates the model’s performance using RMSE.
+
+5️⃣ Model Deployment
+What is it?
+Deployment is the process of making the trained model available for real-world predictions in applications.
+
+Why is it important?
+✅ Allows businesses to use the model for real-time decision-making.
+✅ Integrates with applications, dashboards, APIs, or batch processing systems.
+
+How it’s done?
+🔹 Save the model in HDFS, cloud storage, or databases.
+🔹 Load the model when needed for predictions.
+🔹 Expose via an API for real-time usage.
+
+Example in SparkML
+scala
+Copy
+Edit
+model.write.overwrite().save("hdfs://namenode:9000/models/tfl_underground_rf_model")
+👉 This saves the trained model in HDFS for later use.
+
+🚀 Summary
+Step	Purpose
+Feature Engineering	Prepares raw data for ML (cleaning, encoding, transformation).
+Train-Test Split	Divides data to prevent overfitting (80% train, 20% test).
+Model Training	Teaches ML model to recognize patterns in data.
+Model Evaluation	Tests model accuracy using metrics like RMSE, R².
+Model Deployment	Makes the model available for real-world use.

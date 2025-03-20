@@ -1,0 +1,15 @@
+--Creating Topic--
+kafka-topics --bootstrap-server ip-172-31-8-235.eu-west-2.compute.internal:9092,ip-172-31-14-3.eu-west-2.compute.internal:9092  --create --topic Jaya
+
+--Describe Topic--
+kafka-topics --bootstrap-server ip-172-31-8-235.eu-west-2.compute.internal:9092,ip-172-31-14-3.eu-west-2.compute.internal:9092 --describe --topic Jaya
+
+--Create Producer--
+kafka-console-producer --broker-list ip-172-31-8-235.eu-west-2.compute.internal:9092,ip-172-31-14-3.eu-west-2.compute.internal:9092 --topic Jaya
+
+--Creating Consumer--
+kafka-console-consumer --bootstrap-server ip-172-31-8-235.eu-west-2.compute.internal:9092,ip-172-31-14-3.eu-west-2.compute.internal:9092  --topic uttam --from-beginning --partition 0
+
+--To see all the Topics--
+kafka-topics --bootstrap-server ip-172-31-8-235.eu-west-2.compute.internal:9092,ip-172-31-14-3.eu-west-2.compute.internal:9092 --describe
+

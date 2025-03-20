@@ -8,7 +8,21 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 # ✅ Start Spark Session
-spark = SparkSession.builder.appName("transform_data").enableHiveSupport().getOrCreate()
+
+spark = SparkSession.builder \
+    .appName("transform_data") \
+    .config("spark.executor.memory", "8g") \
+    .config("spark.executor.cores", "4") \
+    .config("spark.executor.instances", "10") \
+    .config("spark.memory.fraction", "0.6") \
+    .config("spark.memory.storageFraction", "0.3") \
+    .enableHiveSupport() \
+    .getOrCreate()
+# Each executor gets 8GB of memory
+# Each executor uses 4 CPU cores
+# Launch 10 executors
+# 60% of executor memory for execution
+# 30% of memory for storage (caching, etc.)
 
 # ✅ Define Hive Database & Tables
 HIVE_DB = "default"

@@ -27,7 +27,7 @@ spark = SparkSession.builder \
 # ✅ Define Hive Database & Tables
 HIVE_DB = "default"
 SOURCE_TABLE = "tfl_tube_status"
-TARGET_TABLE = "tfl_tube_cleandata"
+TARGET_TABLE = "tfl_tube_cleandata1"
 
 # ✅ Log the start of the process
 logger.info("Loading data from source table: %s.%s", HIVE_DB, SOURCE_TABLE)
